@@ -1,0 +1,1 @@
+cmd_/opt/stack/contrail/vrouter/vrouter.ko := ld -r -m elf_x86_64 -T /usr/src/linux-headers-3.13.0-100-generic/scripts/module-common.lds --build-id  -o /opt/stack/contrail/vrouter/vrouter.ko /opt/stack/contrail/vrouter/vrouter.o /opt/stack/contrail/vrouter/vrouter.mod.o

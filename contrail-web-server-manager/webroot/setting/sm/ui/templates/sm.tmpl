@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+
+<script type="text/x-handlebars-template" id="sm-template" xmlns="http://www.w3.org/1999/html">
+    <div id="{{name}}-container" class="row ">
+        <div id="{{name}}-results" class="row"></div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-tags-template">
+    {{#if allowLink}}
+    {{#each tags}}
+    <a onclick="loadFeature({{filterServerByTagParams @key this}});">
+        <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
+    </a>
+    {{/each}}
+    {{else}}
+    {{#each tags}}
+    <span class="badge badge-color-{{getKeyValue4Object ../colors @key}}">{{this}}</span>
+    {{/each}}
+    {{/if}}
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-server-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete server <b>{{serverId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-cluster-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete cluster <b>{{clusterId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-image-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete image <b>{{imageId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-package-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete package <b>{{packageId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-dhcp-host-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete DHCP Host <b>{{hostFqdn}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-delete-dhcp-subnet-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Are you sure you want to delete DHCP Subnet <b>{{subnetAddress}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-cluster-run-inventory-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Do you want to refresh inventory for <b>{{clusterId}}</b>?</div>
+</script>
+
+<script type="text/x-handlebars-template" id="sm-reimage-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_form_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_form_error"></span>
+    </div>
+    {{#if isBaseImageIdConfigured}}
+        <div>Do you want to reimage with <b>{{baseImageId}}</b> ? </div>
+    {{else}}
+        <div>Please configure OS Image ID for {{elementId}} to reimage the {{elementId}}.</div>
+    {{/if}}
+</script>
+
+<script type="text/x-handlebars-template" id="sm-provision-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_form_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_form_error"></span>
+    </div>
+    {{#if isPackageImageIdConfigured}}
+        <div>Do you want to provision with <b>{{packageImageId}}</b> ? </div>
+    {{else}}
+        <div>Please configure Package Image ID for {{elementId}} to provision the {{elementId}}.</div>
+    {{/if}}
+</script>
+
+<script type="text/x-handlebars-template" id="sm-server-run-inventory-template">
+    <div class="alert alert-error" data-bind="visible: errors().{{elementId}}_error">
+        <button type="button" class="close" data-dismiss="alert"></button>
+        <strong>Error: </strong>
+        <span data-bind="text: errors().{{elementId}}_error"></span>
+    </div>
+    <div>Do you want to refresh inventory for <b>{{serverId}}</b>?</div>
+</script>

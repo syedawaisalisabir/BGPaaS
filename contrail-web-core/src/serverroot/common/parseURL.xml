@@ -1,0 +1,92 @@
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+
+<urlLists>
+    <require>
+        <define>parseURLReq</define>
+        <path>./parseURLRequire</path>
+    </require>
+    <require>
+        <define>sshapi</define>
+        <path>./sshcommand.api</path>
+    </require>
+    <require>
+        <define>proxyapi</define>
+        <path>./proxy.api</path>
+    </require>
+    <require>
+        <define>alarmsApi</define>
+        <path>./alarms.api.js</path>
+    </require>
+    <require>
+        <define>configServerUtils</define>
+        <path>./configServer.utils.js</path>
+    </require>
+    <require>
+        <define>discoveryClientApi</define>
+        <path>./discoveryclient.api.js</path>
+    </require>
+    <require>
+        <define>authApi</define>
+        <path>./auth.api.js</path>
+    </require>
+    <item>
+        <url>/api/service/networking/device-status/:ip</url>
+        <method>post</method>
+        <feature>monitoring</feature>
+        <callback>sshapi.getServiceStatus</callback>
+    </item>
+    <item>
+        <url>/proxy</url>
+        <!-- Proxy URL format:
+            /proxy?proxyURL=<URL>&<argument-list>
+        -->
+        <method>get</method>
+        <feature>proxy</feature>
+        <callback>proxyapi.forwardProxyRequest</callback>
+    </item>
+    <item>
+        <url>/api/tenant/monitoring/alarms</url>
+        <method>get</method>
+        <feature>alarms</feature>
+        <callback>alarmsApi.getAlarms</callback>
+    </item>
+    <item>
+        <url>/api/tenant/monitoring/alarmtypes</url>
+        <method>get</method>
+        <feature>alarms</feature>
+        <callback>alarmsApi.getAlarmTypes</callback>
+    </item>
+    <item>
+        <url>/api/tenant/monitoring/ackalarms</url>
+        <method>post</method>
+        <feature>alarms</feature>
+        <callback>alarmsApi.ackAlarms</callback>
+    </item>
+    <item>
+        <url>/api/tenants/get-project-role</url>
+        <method>get</method>
+        <feature>orchestration</feature>
+        <callback>configServerUtils.getProjectRole</callback>
+    </item>
+    <item>
+        <url>/api/tenant/monitoring/discovery-service-list</url>
+        <method>get</method>
+        <feature>discoveryclient</feature>
+        <callback>discoveryClientApi.getDiscServiceRespDataList</callback>
+    </item>
+    <item>
+        <url>/api/tenant/get-region-list</url>
+        <method>get</method>
+        <feature>orchestration</feature>
+        <callback>authApi.getRegionList</callback>
+    </item>
+    <item>
+        <url>/api/getRoles</url>
+        <method>get</method>
+        <feature>orchestration</feature>
+        <callback>configServerUtils.getRoles</callback>
+    </item>
+</urlLists>
+

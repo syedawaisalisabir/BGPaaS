@@ -1,0 +1,15 @@
+.DS_Store
+npm-debug.log
+*.map
+
+node_modules/
+doc/
+_temp/
+
+# web site noise
+tutorials/*
+stylesheets/*
+javascripts/*
+images/*
+
+components/*

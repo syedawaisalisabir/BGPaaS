@@ -1,0 +1,1725 @@
+/*
+ * Copyright (c) 2013 Juniper Networks, Inc. All rights reserved.
+ */
+
+/**
+ *  Definitions of structures used internally by contrail daemons
+ */
+
+include "database/gendb.sandesh"
+
+const string COLLECTOR_KEYSPACE     = "ContrailAnalytics"
+const string COLLECTOR_KEYSPACE_CQL = "ContrailAnalyticsCql"
+const string COLLECTOR_GLOBAL_TABLE = "MessageTable"
+const string UUID_KEY               = "UuidKey"
+const string SOURCE                 = "Source"
+const string KEYWORD                = "Keyword"
+const string NAMESPACE              = "Namespace"
+const string MODULE                 = "ModuleId"
+const string INSTANCE_ID            = "InstanceId"
+const string NODE_TYPE              = "NodeType"
+const string TIMESTAMP              = "MessageTS"
+const string SANDESH_TYPE           = "Type"
+const string CATEGORY               = "Category"
+const string LEVEL                  = "Level"
+const string IPADDRESS              = "IPAddress"
+const string PID                    = "Pid"
+const string MESSAGE_TYPE           = "Messagetype"
+const string DATA                   = "Xmlmessage"
+const string CONTEXT                = "Context"
+const string SEQUENCE_NUM           = "SequenceNum"
+const string VERSION                = "VersionSig"
+const string MESSAGE_TABLE_SOURCE  = "MessageTableSource"
+const string MESSAGE_TABLE_MODULE_ID  = "MessageTableModuleId"
+const string MESSAGE_TABLE_MESSAGE_TYPE  = "MessageTableMessageType"
+const string MESSAGE_TABLE_CATEGORY = "MessageTableCategory"
+const string MESSAGE_TABLE_LEVEL    = "MessageTableLevel"
+const string MESSAGE_TABLE_TIMESTAMP = "MessageTableTimestamp"
+const string MESSAGE_TABLE_KEYWORD = "MessageTableKeyword"
+const string OBJECT_ID              = "ObjectId"
+
+const string ROWTIMESTAMP           = "RowTimeStamp"
+
+const string OBJECT_VALUE_TABLE     = "ObjectValueTable"
+
+const string SYSTEM_OBJECT_TABLE    = "SystemObjectTable"
+const string SYSTEM_OBJECT_ANALYTICS = "SystemObjectAnalytics"
+const string SYSTEM_OBJECT_START_TIME = "SystemObjectStartTime"
+const string SYSTEM_OBJECT_FLOW_START_TIME = "SystemObjectFlowStartTime"
+const string SYSTEM_OBJECT_STAT_START_TIME = "SystemObjectStatStartTime"
+const string SYSTEM_OBJECT_MSG_START_TIME = "SystemObjectMsgStartTime"
+const string SYSTEM_OBJECT_FLOW_DATA_TTL = "SystemObjectFlowDataTtl"
+const string SYSTEM_OBJECT_STATS_DATA_TTL = "SystemObjectStatsDataTtl"
+const string SYSTEM_OBJECT_CONFIG_AUDIT_TTL = "SystemObjectConfigAuditTtl"
+const string SYSTEM_OBJECT_GLOBAL_DATA_TTL = "SystemObjectGlobalDataTtl"
+
+// Master object table which contains all object tables combined
+const string OBJECT_TABLE       = "ObjectTable"
+
+//The following are the object tables and some of them are UVEs
+const string VN_TABLE               = "ObjectVNTable"
+const string VM_TABLE               = "ObjectVMTable"
+const string VMI_TABLE              = "ObjectVMITable"
+const string SI_TABLE               = "ObjectSITable"
+const string LB_TABLE               = "ObjectLBTable"
+const string VROUTER_TABLE          = "ObjectVRouter"
+const string BGP_PEER_TABLE         = "ObjectBgpPeer"
+const string BGP_ROUTER_TABLE       = "ObjectBgpRouter"
+const string XMPP_PEER_INFO_TABLE   = "ObjectXmppPeerInfo"
+const string ROUTING_INSTANCE_TABLE = "ObjectRoutingInstance"
+const string XMPP_CONNECTION_TABLE  = "ObjectXmppConnection"
+const string COLLECTOR_INFO_TABLE   = "ObjectCollectorInfo"
+const string DATABASE_INFO_TABLE    = "ObjectDatabaseInfo"
+const string GENERATOR_INFO_TABLE   = "ObjectGeneratorInfo"
+const string CONFIG_NODE_TABLE      = "ObjectConfigNode"
+const string SERVICE_CHAIN          = "ServiceChain"
+const string DNS_TABLE              = "ObjectDns"
+const string QUERY_TABLE_OBJECT     = "ObjectQueryTable"
+const string QUERY_QID_OBJECT       = "ObjectQueryQid"
+const string CONFIG_OBJECT_TABLE    = "ConfigObjectTable"
+const string POOL_TABLE             = "ObjectPoolTable"
+const string OSD_TABLE              = "ObjectOsdTable"
+const string DISK_TABLE             = "ObjectDiskTable"
+const string SERVER_TABLE             = "ObjectServerTable"
+const string PROUTER_TABLE          = "ObjectPRouter"
+const string CONFIG_OBJECT_TABLE_USER = "ConfigObjectTableByUser"
+const string PHYSICAL_IF_TABLE      = "ObjectPhysicalInterfaceTable"
+const string LOGICAL_IF_TABLE       = "ObjectLogicalInterfaceTable"
+const string STORAGE_CLUSTER_TABLE  = "ObjectStorageClusterTable"
+const string USR_DEF_LOG_STAT_TABLE  = "UserDefinedLogStatTable"
+
+const string VN_DISPLAY_NAME        = "Virtual Network"
+const string VM_DISPLAY_NAME        = "Virtual Machine"
+const string VMI_DISPLAY_NAME       = "Virtual Machine Interface"
+const string SI_DISPLAY_NAME        = "Service Instance"
+const string LB_DISPLAY_NAME        = "Loadbalancer"
+const string VROUTER_DISPLAY_NAME   = "vRouter"
+const string BGP_PEER_DISPLAY_NAME  = "BGP Peer"
+const string ROUTING_INSTANCE_DISPLAY_NAME = "Routing Instance"
+const string BGP_ROUTER_DISPLAY_NAME       = "Control Node"
+const string XMPP_PEER_INFO_DISPLAY_NAME   = "XMPP Peer"
+const string XMPP_CONNECTION_DISPLAY_NAME  = "XMPP Connection"
+const string COLLECTOR_INFO_DISPLAY_NAME   = "Analytics Node"
+const string DATABASE_INFO_DISPLAY_NAME   = "Database Node"
+const string GENERATOR_INFO_DISPLAY_NAME   = "Generator"
+const string CONFIG_NODE_DISPLAY_NAME      = "Config Node"
+const string SERVICE_CHAIN_DISPLAY_NAME = "Service Chain"
+const string DNS_DISPLAY_NAME              = "DNS Node"
+const string QUERY_TABLE_DISPLAY_NAME      = "Query Object Table"
+const string QUERY_QID_DISPLAY_NAME        = "Query Object Qid"
+const string CONFIG_OBJECT_DISPLAY_NAME    = "Config Object Table"
+const string STORAGE_POOL_DISPLAY_NAME     = "Storage Pool"
+const string STORAGE_OSD_DISPLAY_NAME      = "Storage Device"
+const string STORAGE_DISK_DISPLAY_NAME     = "Storage RawDisk"
+const string SERVER_TABLE_DISPLAY_NAME       = "Server Table Info"
+const string PROUTER_DISPLAY_NAME          = "pRouter"
+const string CONFIG_OBJECT_USER_DISPLAY_NAME = "Config Object by User Table"
+const string LOGICAL_IF_DISPLAY_NAME       = "Logical Interface"
+const string PHYSICAL_IF_DISPLAY_NAME      = "Physical Interface"
+const string STORAGE_CLUSTER_DISPLAY_NAME  = "Storage Cluster"
+const string USR_DEF_LOG_STAT_DISPLAY_NAME  = "User Defined Log Statistic"
+
+const string SYSTEM_LOG             = "SystemLog"
+const string OBJECT_LOG             = "ObjectLog"
+
+const string FLOW_TABLE             = "FlowRecordTable"
+const string FLOW_TABLE_VN2VN       = "FlowTableVNtoVN"
+const string FLOW_TABLE_VN          = "FlowTableVN"
+const string FLOW_TABLE_VN_AND_IP   = "FlowTableVNandIP"
+const string FLOW_TABLE_SVN_SIP     = "FlowTableSvnSipVer2"
+const string FLOW_TABLE_DVN_DIP     = "FlowTableDvnDipVer2"
+const string FLOW_TABLE_PROT_SP     = "FlowTableProtSpVer2"
+const string FLOW_TABLE_PROT_DP     = "FlowTableProtDpVer2"
+const string FLOW_TABLE_VROUTER     = "FlowTableVRouterVer2"
+const string FLOW_SERIES_TABLE      = "FlowSeriesTable"
+const string FLOW_TABLE_INVALID     = "Invalid Flow Table"
+
+const string OVERLAY_TO_UNDERLAY_FLOW_MAP = "OverlayToUnderlayFlowMap"
+
+const string STATS_TABLE_BY_STR_STR_TAG     = "StatsTableByStrStrTagV3"
+const string STATS_TABLE_BY_STR_U64_TAG     = "StatsTableByStrU64TagV3"
+const string STATS_TABLE_BY_U64_STR_TAG     = "StatsTableByU64StrTagV3"
+const string STATS_TABLE_BY_U64_U64_TAG     = "StatsTableByU64U64TagV3"
+
+const string STATS_TABLE_BY_DBL_TAG         = "StatsTableByDblTagV3"
+const string STATS_TABLE_BY_STR_TAG         = "StatsTableByStrTagV3"
+const string STATS_TABLE_BY_U64_TAG         = "StatsTableByU64TagV3"
+
+const u16 PARTITION_MIN = 0
+const u16 PARTITION_MAX = 16
+
+enum TtlType {
+    FLOWDATA_TTL,
+    STATSDATA_TTL,
+    CONFIGAUDIT_TTL,
+    GLOBAL_TTL,
+}
+
+typedef map<TtlType, u64> TtlMap
+
+const map<TtlType, u64> TtlValuesDefault = {
+    TtlType.FLOWDATA_TTL : 2,
+    TtlType.STATSDATA_TTL : 168,
+    TtlType.CONFIGAUDIT_TTL : 2160,
+    TtlType.GLOBAL_TTL : 48,
+}
+
+const list<string> _FLOW_TABLES = [
+    FLOW_TABLE_SVN_SIP,
+    FLOW_TABLE_DVN_DIP,
+    FLOW_TABLE_PROT_SP,
+    FLOW_TABLE_PROT_DP,
+    FLOW_TABLE_VROUTER,
+]
+
+const list<string> _STATS_TABLES = [
+    STATS_TABLE_BY_STR_STR_TAG,
+    STATS_TABLE_BY_STR_U64_TAG,
+    STATS_TABLE_BY_U64_STR_TAG,
+    STATS_TABLE_BY_U64_U64_TAG,
+    STATS_TABLE_BY_DBL_TAG,
+    STATS_TABLE_BY_STR_TAG,
+    STATS_TABLE_BY_U64_TAG,
+]
+
+const list<string> _MSG_TABLES = [
+    MESSAGE_TABLE_SOURCE,
+    MESSAGE_TABLE_MODULE_ID,
+    MESSAGE_TABLE_MESSAGE_TYPE,
+    MESSAGE_TABLE_CATEGORY,
+    MESSAGE_TABLE_LEVEL,
+    MESSAGE_TABLE_KEYWORD,
+    MESSAGE_TABLE_TIMESTAMP,
+    OBJECT_TABLE
+]
+
+const list<string> _NO_AUTO_PURGE_TABLES  = [
+    COLLECTOR_GLOBAL_TABLE,
+    FLOW_TABLE,
+    SYSTEM_OBJECT_TABLE
+]
+
+// Please keep FlowRecordFields and FlowRecordNames in sync
+enum FlowRecordFields {
+   FLOWREC_FLOWUUID,
+   FLOWREC_DIRECTION_ING,
+   FLOWREC_SOURCEVN,
+   FLOWREC_SOURCEIP,
+   FLOWREC_DESTVN,
+   FLOWREC_DESTIP,
+   FLOWREC_PROTOCOL,
+   FLOWREC_SPORT,
+   FLOWREC_DPORT,
+   FLOWREC_TOS,
+   FLOWREC_TCP_FLAGS,
+   FLOWREC_VM,
+   FLOWREC_INPUT_INTERFACE,
+   FLOWREC_OUTPUT_INTERFACE,
+   FLOWREC_MPLS_LABEL,
+   FLOWREC_REVERSE_UUID,
+   FLOWREC_SETUP_TIME,
+   FLOWREC_TEARDOWN_TIME,
+   FLOWREC_MIN_INTERARRIVAL,
+   FLOWREC_MAX_INTERARRIVAL,
+   FLOWREC_MEAN_INTERARRIVAL,
+   FLOWREC_STDDEV_INTERARRIVAL,
+   FLOWREC_BYTES,
+   FLOWREC_PACKETS,
+   FLOWREC_DATA_SAMPLE,
+   FLOWREC_VROUTER,
+   FLOWREC_DIFF_BYTES,
+   FLOWREC_DIFF_PACKETS,
+   FLOWREC_SHORT_FLOW,
+   FLOWREC_JSON,
+   FLOWREC_ACTION,
+   FLOWREC_SG_RULE_UUID,
+   FLOWREC_NW_ACE_UUID,
+   FLOWREC_VROUTER_IP,
+   FLOWREC_OTHER_VROUTER_IP,
+   FLOWREC_UNDERLAY_PROTO,
+   FLOWREC_UNDERLAY_SPORT,
+   FLOWREC_VMI_UUID,
+   FLOWREC_DROP_REASON,
+   FLOWREC_MAX,
+}
+
+const list<string> FlowRecordNames = [
+    "flowuuid",
+    "direction_ing",
+    "sourcevn",
+    "sourceip",
+    "destvn",
+    "destip",
+    "protocol",
+    "sport",
+    "dport",
+    "tos",
+    "tcp_flags",
+    "vm",
+    "input_interface",
+    "output_interface",
+    "mpls_label",
+    "reverse_uuid",
+    "setup_time",
+    "teardown_time",
+    "min_interarrival",
+    "max_interarrival",
+    "mean_interarrival",
+    "stddev_interarrival",
+    "bytes",
+    "packets",
+    "data_sample",
+    "vrouter",
+    "diff_bytes",
+    "diff_packets",
+    "short_flow",
+    "json",
+    "action",
+    "sg_rule_uuid",
+    "nw_ace_uuid",
+    "vrouter_ip",
+    "other_vrouter_ip",
+    "underlay_proto",
+    "underlay_source_port",
+    "vmi_uuid",
+    "drop_reason",
+    "invalid",
+]
+
+// UFlowData fields
+const string UFLOW_PROUTER = "name";
+const string UFLOW_PIFINDEX = "flow.pifindex";
+const string UFLOW_SIP = "flow.sip";
+const string UFLOW_DIP = "flow.dip";
+const string UFLOW_SPORT = "flow.sport";
+const string UFLOW_DPORT = "flow.dport";
+const string UFLOW_PROTOCOL = "flow.protocol";
+const string UFLOW_VLAN = "flow.vlan";
+const string UFLOW_FLOWTYPE = "flow.flowtype";
+const string UFLOW_OTHERINFO = "flow.otherinfo";
+
+// OverlayToUnderlayFlowMap fields
+const string O_SVN = "o_svn";
+const string O_SIP = "o_sip";
+const string O_DVN = "o_dvn";
+const string O_DIP = "o_dip";
+const string O_SPORT = "o_sport";
+const string O_DPORT = "o_dport";
+const string O_PROTOCOL = "o_protocol";
+const string O_VROUTER = "o_vrouter";
+const string U_PROUTER = "u_prouter";
+const string U_PIFINDEX = "u_pifindex";
+const string U_VLAN = "u_vlan";
+const string U_SIP = "u_sip";
+const string U_DIP = "u_dip";
+const string U_SPORT = "u_sport";
+const string U_DPORT = "u_dport";
+const string U_PROTOCOL = "u_protocol";
+const string U_FLOWTYPE = "u_flowtype";
+const string U_OTHERINFO = "u_otherinfo"
+
+const map<string, string> OverlayToFlowRecordFields = {
+    O_SVN : "sourcevn",
+    O_SIP : "sourceip",
+    O_DVN : "destvn",
+    O_DIP : "destip",
+    O_SPORT : "sport",
+    O_DPORT : "dport",
+    O_PROTOCOL : "protocol",
+    O_VROUTER : "vrouter"
+}
+
+const map<string, string> FlowRecordToUFlowDataFields = {
+    "vrouter_ip" : UFLOW_SIP,
+    "other_vrouter_ip" : UFLOW_DIP,
+    "underlay_source_port" : UFLOW_SPORT,
+    "underlay_proto" : UFLOW_PROTOCOL
+}
+
+const map<string, string> UnderlayToUFlowDataFields = {
+    U_PROUTER : UFLOW_PROUTER,
+    U_PIFINDEX : UFLOW_PIFINDEX,
+    U_SIP : UFLOW_SIP,
+    U_DIP : UFLOW_DIP,
+    U_SPORT : UFLOW_SPORT,
+    U_DPORT : UFLOW_DPORT,
+    U_PROTOCOL : UFLOW_PROTOCOL,
+    U_VLAN : UFLOW_VLAN,
+    U_FLOWTYPE : UFLOW_FLOWTYPE,
+    U_OTHERINFO : UFLOW_OTHERINFO
+}
+
+// Flow Table Query Strings
+const string FLOW_TABLE_UUID       = "UuidKey"
+const string FLOW_TABLE_AGG_PKTS   = "agg-packets"
+const string FLOW_TABLE_AGG_BYTES  = "agg-bytes"
+
+/* REDIS RELATED NAMES/CONSTANTS */
+
+const string GENERATORS_SET         = "NGENERATORS"
+const string ANALYTICS_START        = "ANALYTICS_START_TIME"
+
+// each row will have equivalent of 2^23 = 8388608 usec
+const i32 RowTimeInBits             = 23
+const i32 RowTimeInMask             = 0x7fffff
+
+enum PartType {
+    PART_TYPE_INVALID= 0,
+    PART_TYPE_CNODES = 1,
+    PART_TYPE_PNODES = 2,
+    PART_TYPE_VMS = 3,
+    PART_TYPE_IFS = 4,
+    PART_TYPE_OTHER = 5,
+}
+
+const map<string, PartType> PART_TYPES = {
+    COLLECTOR_INFO_TABLE: PartType.PART_TYPE_CNODES,
+    DATABASE_INFO_TABLE: PartType.PART_TYPE_CNODES,
+    BGP_ROUTER_TABLE: PartType.PART_TYPE_CNODES,
+    CONFIG_NODE_TABLE: PartType.PART_TYPE_CNODES,
+    DNS_TABLE: PartType.PART_TYPE_CNODES,
+    SERVER_TABLE: PartType.PART_TYPE_PNODES,
+    PROUTER_TABLE: PartType.PART_TYPE_PNODES,
+    VROUTER_TABLE: PartType.PART_TYPE_PNODES,
+    VM_TABLE: PartType.PART_TYPE_VMS,
+    VMI_TABLE: PartType.PART_TYPE_IFS,
+    PHYSICAL_IF_TABLE: PartType.PART_TYPE_IFS,
+    LOGICAL_IF_TABLE: PartType.PART_TYPE_IFS,
+}
+
+const map<string, string> UVE_MAP = {
+    "virtual-network" : VN_TABLE,
+    "virtual-machine" : VM_TABLE,
+    "virtual-machine-interface" : VMI_TABLE,
+    "service-instance" : SI_TABLE,
+    "loadbalancer" : LB_TABLE,
+    "vrouter" : VROUTER_TABLE,
+    "control-node" : BGP_ROUTER_TABLE,
+    "bgp-peer" : BGP_PEER_TABLE,
+    "routing-instance" : ROUTING_INSTANCE_TABLE,
+    "xmpp-peer" : XMPP_PEER_INFO_TABLE,
+    "analytics-node" : COLLECTOR_INFO_TABLE,
+    "database-node" : DATABASE_INFO_TABLE,
+    "generator" : GENERATOR_INFO_TABLE
+    "config-node" : CONFIG_NODE_TABLE,
+    "service-chain" : SERVICE_CHAIN,
+    "dns-node" : DNS_TABLE,
+    "storage-pool" : POOL_TABLE,
+    "storage-osd" : OSD_TABLE,
+    "storage-disk" : DISK_TABLE,
+    "server" : SERVER_TABLE,
+    "prouter" : PROUTER_TABLE,
+    "physical-interface" : PHYSICAL_IF_TABLE,
+    "logical-interface" : LOGICAL_IF_TABLE,
+    "storage-cluster" : STORAGE_CLUSTER_TABLE,
+    "user-defined-log-statistic" : USR_DEF_LOG_STAT_TABLE
+}
+
+struct objtable_info {
+    1: string objtable_display_name
+    2: string log_query_name
+    3: bool is_uve
+    4: bool global_system_object
+}
+
+const map<string, objtable_info> _OBJECT_TABLES = {
+    CONFIG_OBJECT_TABLE    : {
+        'objtable_display_name' : CONFIG_OBJECT_DISPLAY_NAME
+        'log_query_name'        : "config"
+        'is_uve'                : false
+        'global_system_object'  : true
+    }
+    VN_TABLE               : {
+        'objtable_display_name' : VN_DISPLAY_NAME
+        'log_query_name'        : "virtual-network"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    VM_TABLE               : {
+        'objtable_display_name' : VM_DISPLAY_NAME
+        'log_query_name'        : "virtual-machine"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    VMI_TABLE              : {
+        'objtable_display_name' : VMI_DISPLAY_NAME
+        'log_query_name'        : "virtual-machine-interface"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    SI_TABLE               : {
+        'objtable_display_name' : SI_DISPLAY_NAME
+        'log_query_name'        : "service-instance"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    LB_TABLE               : {
+        'objtable_display_name' : LB_DISPLAY_NAME
+        'log_query_name'        : "loadbalancer"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    VROUTER_TABLE          : {
+        'objtable_display_name' : VROUTER_DISPLAY_NAME
+        'log_query_name'        : "vrouter"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    PROUTER_TABLE          : {
+        'objtable_display_name' : PROUTER_DISPLAY_NAME
+        'log_query_name'        : "prouter"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    BGP_PEER_TABLE         : {
+        'objtable_display_name' : BGP_PEER_DISPLAY_NAME
+        'log_query_name'        : "bgp-peer"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    BGP_ROUTER_TABLE       : {
+        'objtable_display_name' : BGP_ROUTER_DISPLAY_NAME
+        'log_query_name'        : "control-node"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    ROUTING_INSTANCE_TABLE : {
+        'objtable_display_name' : ROUTING_INSTANCE_DISPLAY_NAME
+        'log_query_name'        : "routing-instance"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    XMPP_CONNECTION_TABLE  : {
+        'objtable_display_name' : XMPP_CONNECTION_DISPLAY_NAME
+        'log_query_name'        : "xmpp-connection"
+        'is_uve'                : false
+        'global_system_object'  : true
+    }
+    XMPP_PEER_INFO_TABLE  : {
+        'objtable_display_name' : XMPP_PEER_INFO_DISPLAY_NAME
+        'log_query_name'        : "xmpp-peer"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    COLLECTOR_INFO_TABLE   : {
+        'objtable_display_name' : COLLECTOR_INFO_DISPLAY_NAME
+        'log_query_name'        : "analytics-node"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    DATABASE_INFO_TABLE   : {
+        'objtable_display_name' : DATABASE_INFO_DISPLAY_NAME
+        'log_query_name'        : "database-node"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    GENERATOR_INFO_TABLE   : {
+        'objtable_display_name' : GENERATOR_INFO_DISPLAY_NAME
+        'log_query_name'        : "generator"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    CONFIG_NODE_TABLE      : {
+        'objtable_display_name' : CONFIG_NODE_DISPLAY_NAME
+        'log_query_name'        : "config-node"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    SERVICE_CHAIN          : {
+        'objtable_display_name' : SERVICE_CHAIN_DISPLAY_NAME
+        'log_query_name'        : "service-chain"
+        'is_uve'                : true
+        'global_system_object'  : false
+    }
+    DNS_TABLE       : {
+        'objtable_display_name' : DNS_DISPLAY_NAME
+        'log_query_name'        : "dns-node"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    QUERY_TABLE_OBJECT       : {
+        'objtable_display_name' : QUERY_TABLE_DISPLAY_NAME
+        'log_query_name'        : "analytics-query"
+        'is_uve'                : false
+        'global_system_object'  : true
+    }
+    QUERY_QID_OBJECT       : {
+        'objtable_display_name' : QUERY_QID_DISPLAY_NAME
+        'log_query_name'        : "analytics-query-id"
+        'is_uve'                : false
+        'global_system_object'  : true
+    }
+    POOL_TABLE          : {
+        'objtable_display_name' : STORAGE_POOL_DISPLAY_NAME
+        'log_query_name'        : "storage-pool"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    OSD_TABLE          : {
+        'objtable_display_name' : STORAGE_OSD_DISPLAY_NAME
+        'log_query_name'        : "storage-osd"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    DISK_TABLE          : {
+        'objtable_display_name' : STORAGE_DISK_DISPLAY_NAME
+        'log_query_name'        : "storage-disk"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    SERVER_TABLE          : {
+        'objtable_display_name' : SERVER_TABLE_DISPLAY_NAME
+        'log_query_name'        : "server"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    CONFIG_OBJECT_TABLE_USER    : {
+        'objtable_display_name' : CONFIG_OBJECT_USER_DISPLAY_NAME
+        'log_query_name'        : "config-user"
+        'is_uve'                : false
+        'global_system_object'  : true
+    }
+    PHYSICAL_IF_TABLE    : {
+        'objtable_display_name' : PHYSICAL_IF_DISPLAY_NAME
+        'log_query_name'        : "physical-interface"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    LOGICAL_IF_TABLE   : {
+        'objtable_display_name' : LOGICAL_IF_DISPLAY_NAME
+        'log_query_name'        : "logical-interface"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    STORAGE_CLUSTER_TABLE    : {
+        'objtable_display_name' : STORAGE_CLUSTER_DISPLAY_NAME
+        'log_query_name'        : "storage-cluster"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+    USR_DEF_LOG_STAT_TABLE   : {
+        'objtable_display_name' : USR_DEF_LOG_STAT_DISPLAY_NAME
+        'log_query_name'        : "user-defined-log-statistic"
+        'is_uve'                : true
+        'global_system_object'  : true
+    }
+}
+
+// Analytics table schema defination
+
+// Description of the column
+struct schema_column
+{
+    1: string    name;
+    2: gendb.DbDataType datatype;
+    3: bool      key;
+}
+
+// Description of the column
+struct query_column
+{
+    1: string name;
+    2: string datatype;
+    3: bool index;
+    4: bool select;
+    5: list<string> suffixes;
+}
+
+struct query_schema_type
+{
+    1: string type;
+    2: list<query_column> columns;
+}
+
+struct query_table
+{
+    1: string name;
+    2: query_schema_type schema;
+    3: list<string> columnvalues;
+    4: string display_name;
+}
+
+struct stat_query_column
+{
+    1: string name;
+    2: string datatype;
+    3: bool index;
+    4: list<string> suffixes;
+}
+
+struct table_schema
+{
+    1: string   table_name;
+    2: bool     is_static;
+    3: bool     is_index_table;
+    4: list<schema_column> columns;
+}
+
+struct stat_table
+{
+    6: string display_name;
+    1: string stat_type;
+    2: string stat_attr;
+    3: string obj_table;
+    5: list<stat_query_column> attributes;
+}
+
+const string STAT_OBJECTID_FIELD = "name";
+const string STAT_SOURCE_FIELD   = SOURCE;
+const string STAT_KEY_FIELD      = "__key";
+const string STAT_VALUE_FIELD    = "__value";
+const string STAT_TIME_FIELD     = "T";
+const string STAT_TIMEBIN_FIELD  = "T=";
+const string STAT_UUID_FIELD     = "UUID";
+const string STAT_VT_PREFIX      = "StatTable";
+
+const list<table_schema> _VIZD_TABLE_SCHEMA = [
+{
+    'table_name' : MESSAGE_TABLE_SOURCE,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : 'column2', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'column3', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : COLLECTOR_GLOBAL_TABLE,
+    'is_static' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.LexicalUUIDType, 'key'
+: true },
+        { 'name' : CATEGORY, 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : CONTEXT, 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : IPADDRESS, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : INSTANCE_ID, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : LEVEL, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : TIMESTAMP, 'datatype' : Gendb.DbDataType.Unsigned64Type },
+        { 'name' : MESSAGE_TYPE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : MODULE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : NAMESPACE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : NODE_TYPE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : PID, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : SEQUENCE_NUM, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : SOURCE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : SANDESH_TYPE, 'datatype' : Gendb.DbDataType.Unsigned8Type },
+        { 'name' : VERSION, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : DATA, 'datatype' : Gendb.DbDataType.UTF8Type },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_MODULE_ID,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : 'column2', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'column3', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_MESSAGE_TYPE,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : 'column2', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'column3', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_CATEGORY,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.Unsigned32Type,  'key'
+: true},
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : 'column2', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'column3', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_TIMESTAMP,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key' :
+true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'column2', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : OBJECT_VALUE_TABLE,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key' :
+true },
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.UTF8Type 'key' : true },
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : SYSTEM_OBJECT_TABLE,
+    'is_static' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' : true},
+        { 'name' : SYSTEM_OBJECT_FLOW_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_CONFIG_AUDIT_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_FLOW_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_GLOBAL_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_MSG_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_STAT_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_STATS_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+    ]
+},
+{
+    'table_name' : OBJECT_TABLE,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_KEYWORD,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+    ]
+},
+]
+
+const list<table_schema> _VIZD_THRIFT_TABLE_SCHEMA = [
+{
+    'table_name' : MESSAGE_TABLE_SOURCE,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.UTF8Type, 'key' :
+true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'value', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : COLLECTOR_GLOBAL_TABLE,
+    'is_static' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.LexicalUUIDType, 'key'
+: true },
+        { 'name' : CATEGORY, 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : CONTEXT, 'datatype' : GenDb.DbDataType.UTF8Type },
+        { 'name' : IPADDRESS, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : INSTANCE_ID, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : LEVEL, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : TIMESTAMP, 'datatype' : Gendb.DbDataType.Unsigned64Type },
+        { 'name' : MESSAGE_TYPE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : MODULE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : NAMESPACE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : NODE_TYPE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : PID, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : SEQUENCE_NUM, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : SOURCE, 'datatype' : Gendb.DbDataType.UTF8Type },
+        { 'name' : SANDESH_TYPE, 'datatype' : Gendb.DbDataType.Unsigned8Type },
+        { 'name' : VERSION, 'datatype' : Gendb.DbDataType.Unsigned32Type },
+        { 'name' : DATA, 'datatype' : Gendb.DbDataType.UTF8Type },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_MODULE_ID,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.UTF8Type, 'key' :
+true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'value', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_MESSAGE_TYPE,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.UTF8Type, 'key' :
+true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'value', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_CATEGORY,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'key2', 'datatype' : GenDb.DbDataType.UTF8Type, 'key' :
+true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'value', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_TIMESTAMP,
+    'is_index_table' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : GenDb.DbDataType.Unsigned32Type, 'key'
+: true },
+        { 'name' : 'column1', 'datatype' : GenDb.DbDataType.Unsigned32Type },
+        { 'name' : 'value', 'datatype' : GenDb.DbDataType.LexicalUUIDType },
+    ]
+},
+{
+    'table_name' : OBJECT_VALUE_TABLE,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : SYSTEM_OBJECT_TABLE,
+    'is_static' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' : true},
+        { 'name' : SYSTEM_OBJECT_FLOW_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_CONFIG_AUDIT_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_FLOW_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_GLOBAL_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_MSG_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_STAT_START_TIME, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : SYSTEM_OBJECT_STATS_DATA_TTL, 'datatype' : Gendb.DbDataType.Unsigned64Type},
+    ]
+},
+{
+    'table_name' : OBJECT_TABLE,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+    ]
+},
+{
+    'table_name' : MESSAGE_TABLE_KEYWORD,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+    ]
+},
+]
+
+const list<table_schema> _VIZD_FLOW_TABLE_SCHEMA = [
+{
+    'table_name' : FLOW_TABLE,
+    'is_static' : true,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.LexicalUUIDType, 'key'
+: true},
+        { 'name' : "vrouter", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "direction_ing", 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : "sourcevn", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "sourceip", 'datatype' : Gendb.DbDataType.InetType},
+        { 'name' : "destvn", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "destip", 'datatype' : Gendb.DbDataType.InetType},
+        { 'name' : "protocol", 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : "sport", 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : "dport", 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : "tos", 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : "tcp_flags", 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : "vm", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "input_interface", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "output_interface", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "mpls_label", 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : "reverse_uuid", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "setup_time", 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : "teardown_time", 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : "min_interarrival", 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : "max_interarrival", 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : "mean_interarrival", 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : "stddev_interarrival", 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : "bytes", 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : "packets", 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : "data_sample", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "action", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "sg_rule_uuid", 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : "nw_ace_uuid", 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : "vrouter_ip", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "other_vrouter_ip", 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : "underlay_proto", 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : "underlay_source_port", 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : "vmi_uuid", 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : "drop_reason", 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : FLOW_TABLE_SVN_SIP,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.InetType},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : FLOW_TABLE_DVN_DIP,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.InetType},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : FLOW_TABLE_PROT_SP,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : FLOW_TABLE_PROT_DP,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned16Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : FLOW_TABLE_VROUTER,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+]
+
+const list<table_schema> _VIZD_STAT_TABLE_SCHEMA = [
+{
+    'table_name' : STATS_TABLE_BY_STR_STR_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key6', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_STR_U64_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key6', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_U64_STR_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key6', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_U64_U64_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key6', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column4', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_U64_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.Unsigned64Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_DBL_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.DoubleType},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+{
+    'table_name' : STATS_TABLE_BY_STR_TAG,
+    'columns' : [
+        { 'name' : 'key', 'datatype' : Gendb.DbDataType.Unsigned32Type, 'key'
+: true},
+        { 'name' : 'key2', 'datatype' : Gendb.DbDataType.Unsigned8Type, 'key'
+: true},
+        { 'name' : 'key3', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key4', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'key5', 'datatype' : Gendb.DbDataType.UTF8Type, 'key' :
+true},
+        { 'name' : 'column1', 'datatype' : Gendb.DbDataType.UTF8Type},
+        { 'name' : 'column2', 'datatype' : Gendb.DbDataType.Unsigned32Type},
+        { 'name' : 'column3', 'datatype' : Gendb.DbDataType.LexicalUUIDType},
+        { 'name' : 'value', 'datatype' : Gendb.DbDataType.UTF8Type},
+    ]
+},
+]
+
+const list<stat_table> _STAT_TEST_TABLES = [
+{
+      'display_name' : 'Test',
+      'stat_type' : 'StatTestState',
+      'stat_attr' : 'st',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'st.i1', 'datatype' : 'int', 'index' : true, 'suffixes': ['st.i2']},
+          { 'name' : 'st.i2', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'st.d1', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'st.s1', 'datatype' : 'string', 'index' : false},
+          { 'name' : 'st.s2', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'l1',    'datatype' : 'string', 'index' : true},
+          { 'name' : 'name',  'datatype' : 'string', 'index' : true, 'suffixes': ['st.s1']},
+        ]
+},
+{
+      'display_name' : 'Test Double',
+      'stat_type' : 'StatTestStateDouble',
+      'stat_attr' : 'dst.st',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'dst.st.i1', 'datatype' : 'int', 'index' : true, 'suffixes': ['dst.st.i2']},
+          { 'name' : 'dst.st.i2', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'dst.st.d1', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'dst.st.s1', 'datatype' : 'string', 'index' : false},
+          { 'name' : 'dst.st.s2', 'datatype' : 'string', 'index' : false},
+          { 'name' : 'dst.l1',    'datatype' : 'string', 'index' : true, 'suffixes': ['dst.st.s2']},
+        ]
+},
+{
+      'display_name' : 'Test Objectlog',
+      'stat_type' : 'StatTestObj',
+      'stat_attr' : 'st',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'st.i1', 'datatype' : 'int', 'index' : true, 'suffixes': ['st.i2']},
+          { 'name' : 'st.i2', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'st.d1', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'st.s1', 'datatype' : 'string', 'index' : false},
+          { 'name' : 'st.s2', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'l1',    'datatype' : 'string', 'index' : true},
+          { 'name' : 'name',  'datatype' : 'string', 'index' : true, 'suffixes': ['st.s1']},
+        ]
+}
+]
+
+const list<stat_table> _STAT_TABLES  = [
+    {
+      'display_name' : 'Values Table - string',
+      'stat_type' : 'FieldNames'
+      'stat_attr' : 'fields'
+      'obj_table' : 'NONE',
+      'attributes': [
+          { 'name' : 'fields.value',  'datatype' : 'string',    'index' : false},
+        ]
+    },
+    {
+      'display_name' : 'Values Table - integer',
+      'stat_type' : 'FieldNames'
+      'stat_attr' : 'fieldi'
+      'obj_table' : 'NONE',
+      'attributes': [
+          { 'name' : 'fieldi.value',  'datatype' : 'int',    'index' : false},
+        ]
+    },
+    {
+      'display_name' : 'Physical Router Fabric Usage',
+      'stat_type' : 'TelemetryStream'
+      'stat_attr' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts',
+      'obj_table' : 'NONE',
+      'attributes': [
+          { 'name' : 'system_id',                                                                                  'datatype' : 'string', 'index' : true},
+          { 'name' : 'component_id',                                                                               'datatype' : 'int',    'index' : true},
+          { 'name' : 'sub_component_id',                                                                           'datatype' : 'int',    'index' : true},
+          { 'name' : 'sensor_name',                                                                                'datatype' : 'string', 'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.location',                                       'datatype' : 'string', 'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.src_type',                                 'datatype' : 'string', 'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.src_slot',                                 'datatype' : 'int',    'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.src_pfe',                                  'datatype' : 'int',    'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.dst_type',                                 'datatype' : 'string', 'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.dst_slot',                                 'datatype' : 'int',    'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.dst_pfe',                                  'datatype' : 'int',    'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.priority',                     'datatype' : 'string', 'index' : true},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.packets',      'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.bytes',        'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.pps',          'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.bps',          'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.drop_packets', 'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.drop_bytes',   'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.drop_pps',     'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.drop_bps',     'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.q_depth_avg',  'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.q_depth_cur',  'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.q_depth_peak', 'datatype' : 'int',    'index' : false},
+          { 'name' : 'enterprise.juniperNetworks.fabricMessageExt.edges.class_stats.transmit_counts.q_depth_max',  'datatype' : 'int',    'index' : false},
+        ]
+    },
+    {
+      'display_name' : 'Underlay Flow Information',
+      'stat_type' : 'UFlowData'
+      'stat_attr' : 'flow',
+      'obj_table' : 'NONE',
+      'attributes': [
+          { 'name' : UFLOW_PROUTER, 'datatype' : 'string', 'index' : true, 'suffixes': [ UFLOW_PIFINDEX ] },
+          { 'name' : UFLOW_PIFINDEX, 'datatype' : 'int', 'index' : false },
+          { 'name' : UFLOW_SPORT, 'datatype' : 'int', 'index' : false },
+          { 'name' : UFLOW_DPORT, 'datatype' : 'int', 'index' : false },
+          { 'name' : UFLOW_PROTOCOL, 'datatype' : 'int', 'index' : true, 'suffixes': [ UFLOW_SPORT, UFLOW_DPORT ] },
+          { 'name' : UFLOW_SIP, 'datatype' : 'string', 'index' : true },
+          { 'name' : UFLOW_DIP, 'datatype' : 'string', 'index' : true },
+          { 'name' : UFLOW_VLAN, 'datatype' : 'string', 'index' : true },
+          { 'name' : UFLOW_FLOWTYPE, 'datatype' : 'string', 'index' : false },
+          { 'name' : UFLOW_OTHERINFO, 'datatype' : 'string', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Analytics Disk Usage Info',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'disk_usage_info',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'disk_usage_info.partition_type', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.__key', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_used_1k', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_available_1k', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Database Disk Usage Info',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'disk_usage_info',
+      'obj_table' : DATABASE_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'disk_usage_info.partition_type', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.__key', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_used_1k', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_available_1k', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Config Disk Usage Info',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'disk_usage_info',
+      'obj_table' : CONFIG_NODE_TABLE,
+      'attributes': [
+          { 'name' : 'disk_usage_info.partition_type', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.__key', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_used_1k', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_available_1k', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Control-node Disk Usage Info',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'disk_usage_info',
+      'obj_table' : BGP_ROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'disk_usage_info.partition_type', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.__key', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_used_1k', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_available_1k', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Vrouter Disk Usage Info',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'disk_usage_info',
+      'obj_table' : VROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'disk_usage_info.partition_type', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.__key', 'datatype' : 'string', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_used_1k', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'disk_usage_info.partition_space_available_1k', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Analytics Process Memory CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'process_mem_cpu_usage',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'process_mem_cpu_usage.__key', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_virt', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'process_mem_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_res', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Database Process Memory CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'process_mem_cpu_usage',
+      'obj_table' : DATABASE_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'process_mem_cpu_usage.__key', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_virt', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'process_mem_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_res', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Config Process Memory CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'process_mem_cpu_usage',
+      'obj_table' : CONFIG_NODE_TABLE,
+      'attributes': [
+          { 'name' : 'process_mem_cpu_usage.__key', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_virt', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'process_mem_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_res', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Control-node Process Memory CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'process_mem_cpu_usage',
+      'obj_table' : BGP_ROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'process_mem_cpu_usage.__key', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_virt', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'process_mem_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_res', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Vrouter Process Memory CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'process_mem_cpu_usage',
+      'obj_table' : VROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'process_mem_cpu_usage.__key', 'datatype' : 'string', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_virt', 'datatype' : 'int', 'index' : false },
+          { 'name' : 'process_mem_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'process_mem_cpu_usage.mem_res', 'datatype' : 'int', 'index' : false },
+        ]
+    },
+    {
+      'display_name' : 'Analytics System Memory Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_mem_usage',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'system_mem_usage.total', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.used', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.free', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.buffers', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.cached', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Database System Memory Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_mem_usage',
+      'obj_table' : DATABASE_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'system_mem_usage.total', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.used', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.free', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.buffers', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.cached', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Config System Memory Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_mem_usage',
+      'obj_table' : CONFIG_NODE_TABLE,
+      'attributes': [
+          { 'name' : 'system_mem_usage.total', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.used', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.free', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.buffers', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.cached', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Control-node System Memory Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_mem_usage',
+      'obj_table' : BGP_ROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'system_mem_usage.total', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.used', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.free', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.buffers', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.cached', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Vrouter System Memory Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_mem_usage',
+      'obj_table' : VROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'system_mem_usage.total', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.used', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.free', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.buffers', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.cached', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_mem_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Analytics System CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_cpu_usage',
+      'obj_table' : COLLECTOR_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'system_cpu_usage.one_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.five_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.fifteen_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'system_cpu_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Database System CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_cpu_usage',
+      'obj_table' : DATABASE_INFO_TABLE,
+      'attributes': [
+          { 'name' : 'system_cpu_usage.one_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.five_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.fifteen_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'system_cpu_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Config System CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_cpu_usage',
+      'obj_table' : CONFIG_NODE_TABLE,
+      'attributes': [
+          { 'name' : 'system_cpu_usage.one_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.five_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.fifteen_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'system_cpu_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Control-node System CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_cpu_usage',
+      'obj_table' : BGP_ROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'system_cpu_usage.one_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.five_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.fifteen_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'system_cpu_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+    {
+      'display_name' : 'Vrouter System CPU Usage',
+      'stat_type' : 'NodeStatus'
+      'stat_attr' : 'system_cpu_usage',
+      'obj_table' : VROUTER_TABLE,
+      'attributes': [
+          { 'name' : 'system_cpu_usage.one_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.five_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.fifteen_min_avg', 'datatype' : 'int', 'index' : false},
+          { 'name' : 'system_cpu_usage.cpu_share', 'datatype' : 'double', 'index' : true},
+          { 'name' : 'system_cpu_usage.node_type', 'datatype' : 'string', 'index' : true},
+        ]
+    },
+]
+
+const list<query_table> _TABLES = [
+    {
+         'name' : COLLECTOR_GLOBAL_TABLE,
+         'schema' : {
+             'type' : 'LOG',
+             'columns' :  [
+               { 'name' : 'MessageTS', 'datatype' : 'int', 'index' : false},
+               { 'name' : SOURCE, 'datatype' : 'string', 'index' : true },
+               { 'name' : MODULE, 'datatype' : 'string', 'index' : true },
+               { 'name' : 'Category', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'Level', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'Type', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'InstanceId', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'NodeType', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'Messagetype', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'SequenceNum', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'Context', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'Keyword', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'Xmlmessage', 'datatype' : 'string', 'index' : false },
+               ]
+              },
+          'columnvalues' : [ MODULE, SOURCE, 'Category', 'Level' ],
+    },
+    {
+         'name' : FLOW_TABLE,
+         'schema' : {
+             'type' : 'FLOW',
+             'columns' :  [
+               { 'name' : 'vrouter', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'sourcevn', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'sourceip', 'datatype' : 'ipaddr', 'index' : true },
+               { 'name' : 'destvn', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'destip', 'datatype' : 'ipaddr', 'index' : true },
+               { 'name' : 'protocol', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'sport', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'dport', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'direction_ing', 'datatype' : 'int', 'index' : true },
+               { 'name' : FLOW_TABLE_UUID, 'datatype' : 'uuid', 'index' : false },
+               { 'name' : 'setup_time', 'datatype' : 'long', 'index' : false },
+               { 'name' : 'teardown_time', 'datatype' : 'long', 'index' : false },
+               { 'name' : FLOW_TABLE_AGG_PKTS, 'datatype' : 'long', 'index' : false },
+               { 'name' : FLOW_TABLE_AGG_BYTES, 'datatype' : 'long', 'index' : false },
+               { 'name' : 'action', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'sg_rule_uuid', 'datatype' : 'uuid', 'index' : false },
+               { 'name' : 'nw_ace_uuid', 'datatype' : 'uuid', 'index' : false },
+               { 'name' : 'vrouter_ip', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'other_vrouter_ip', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'underlay_proto', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'underlay_source_port', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'vmi_uuid', 'datatype' : 'uuid', 'index' : false },
+               { 'name' : 'drop_reason', 'datatype' : 'string', 'index' : false },
+               ]
+         },
+         'columnvalues' : [ ],
+    },
+    {
+         'name' : 'FlowSeriesTable',
+         'schema' : {
+             'type' : 'FLOW',
+             'columns' :  [
+               { 'name' : 'vrouter', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'sourcevn', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'sourceip', 'datatype' : 'ipaddr', 'index' : true },
+               { 'name' : 'destvn', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'destip', 'datatype' : 'ipaddr', 'index' : true },
+               { 'name' : 'protocol', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'sport', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'dport', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'direction_ing', 'datatype' : 'int', 'index' : true },
+               { 'name' : 'flow_class_id', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'T', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'T=', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'packets', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'bytes', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'sum(packets)', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'sum(bytes)', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'flow_count', 'datatype' : 'int', 'index' : false },
+               ]
+         },
+         'columnvalues' : [ ],
+    },
+    {
+        'name' : OVERLAY_TO_UNDERLAY_FLOW_MAP,
+        'schema' : {
+            'type' : 'FLOW',
+            'columns' : [
+              { 'name' : O_SVN, 'datatype' : 'string', 'index' : true, 'select' : false, 'suffixes' : [ O_SIP ] },
+              { 'name' : O_SIP, 'datatype' : 'string', 'index' : false, 'select' : false },
+              { 'name' : O_DVN, 'datatype' : 'string', 'index' : true, 'select' : false, 'suffixes' : [ O_DIP ] },
+              { 'name' : O_DIP, 'datatype' : 'string', 'index' : false, 'select' : false },
+              { 'name' : O_SPORT, 'datatype' : 'int', 'index' : false, 'select' : false },
+              { 'name' : O_DPORT, 'datatype' : 'int', 'index' : false, 'select' : false },
+              { 'name' : O_PROTOCOL, 'datatype' : 'int', 'index' : true, 'select' : false, 'suffixes' : [ O_SPORT, O_DPORT ] },
+              { 'name' : O_VROUTER, 'datatype' : 'string', 'index' : true, 'select' : false },
+              { 'name' : U_PROUTER, 'datatype' : 'string', 'index' : false },
+              { 'name' : U_PIFINDEX, 'datatype' : 'int', 'index' : false },
+              { 'name' : U_VLAN, 'datatype' : 'int', 'index' : false },
+              { 'name' : U_SIP, 'datatype' : 'string', 'index' : false },
+              { 'name' : U_DIP, 'datatype' : 'string', 'index' : false },
+              { 'name' : U_SPORT, 'datatype' : 'int', 'index' : false },
+              { 'name' : U_DPORT, 'datatype' : 'int', 'index' : false },
+              { 'name' : U_PROTOCOL, 'datatype' : 'int', 'index' : false },
+              { 'name' : U_FLOWTYPE, 'datatype' : 'string', 'index' : false },
+              { 'name' : U_OTHERINFO, 'datatype' : 'string', 'index' : false },
+              ]
+        },
+        'columnvalues' : [ ],
+    },
+]
+
+// all object tables have the same schema and same query-able columns
+// as below
+const query_schema_type _OBJECT_TABLE_SCHEMA =
+        {
+             'type' : 'OBJECT',
+             'columns' :  [
+               { 'name' : 'MessageTS', 'datatype' : 'int', 'index' : false },
+               { 'name' : 'ObjectId', 'datatype' : 'string', 'index' : true },
+               { 'name' : SOURCE, 'datatype' : 'string', 'index' : true },
+               { 'name' : MODULE, 'datatype' : 'string', 'index' : true },
+               { 'name' : 'Messagetype', 'datatype' : 'string', 'index' : true },
+               { 'name' : 'ObjectLog', 'datatype' : 'string', 'index' : false },
+               { 'name' : 'SystemLog', 'datatype' : 'string', 'index' : false },
+               ]
+        }
+const list<string> _OBJECT_TABLE_COLUMN_VALUES = [ MODULE, SOURCE, 'Category', 'Level' ]
+

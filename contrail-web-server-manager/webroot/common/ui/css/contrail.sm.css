@@ -1,0 +1,30 @@
+/*
+ * Copyright (c) 2016 Juniper Networks, Inc.
+ * All rights reserved.
+ */
+
+/* Styles for status bubbles for Server START*/
+.status-server-other {
+    background-color:#eccb71;
+}
+.status-server-provision-completed {
+    background-color:#69aa46;
+}
+.status-server-discovered {
+    background-color: #FF7F0E;
+}
+.status-server-added {
+    background-color:#7892dd;
+}
+/* Styles for status bubbles for Server END*/
+
+.sm-schema-text-link {
+    font-size:13px;
+    color:#3182BD;
+    cursor:pointer;
+}
+.sm-schema-text-link:before {
+    content: '\f044';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}

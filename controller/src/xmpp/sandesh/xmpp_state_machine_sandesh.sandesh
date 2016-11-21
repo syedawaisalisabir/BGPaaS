@@ -1,0 +1,197 @@
+/*
+ * Copyright (c) 2013 Juniper Networks, Inc. All rights reserved.
+ */
+
+/**
+ * XMPP State Machine Module
+ */
+
+struct XmppConnectionInfo {
+    1: string ip_address (key="ObjectXmppConnection");          // Agent/BGP peer address
+    2: optional string state;      // current state
+    3: optional string next_state; // next state
+    4: optional string event;      // state machine event
+    5: optional string identifier; // peer xmpp address
+    6: optional u32 local_port;
+    7: optional u32 remote_port;
+    8: optional string error;
+    12: optional string close_reason;
+}
+
+objectlog sandesh XmppConnectionLog {
+    1: XmppConnectionInfo connection;
+}
+
+/**
+ * @description: XMPP StateMachine related message
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppStateMachineDebug {
+    1: string channel_type;
+    2: string message;
+}
+
+/**
+ * @description: XMPP StateMachine related message
+ * @severity: NOTICE
+ */
+systemlog sandesh XmppStateMachineNotice {
+    1: string channel_type;
+    2: string message;
+}
+
+/**
+ * @description: XMPP Event related message
+ * @severity: NOTICE
+ */
+systemlog sandesh XmppEventLog {
+    1: string channel_type;
+    2: string event;
+    3: "peer ip:";
+    4: string peer_address;
+    5: "(";
+    6: string local_address;
+    7: ")";
+}
+
+/**
+ * @description: XMPP Open message send event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppOpen {
+    1: "Send Xmpp Open: ";
+    2: i32 length;
+    3: " bytes from: ";
+    4: string from;
+    5: " To: ";
+    6: string to;
+}
+
+/**
+ * @description: XMPP OpenConfirm message send event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppOpenConfirm {
+    1: "Send Xmpp Open Confirm: ";
+    2: i32 length;
+    3: " bytes from: ";
+    4: string from;
+    5: " To: ";
+    6: string to;
+}
+
+/**
+ * @description: XMPP control message
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppControlMessage {
+    1: string message
+    2: i32 length;
+    3: " bytes from: ";
+    4: string from;
+    5: " To: ";
+    6: string to;
+}
+
+/**
+ * @description: XMPP KeepAlive timer error
+ * @severity: ERROR
+ * @cause: Scheduled Timer operation did not operate correctly
+ * @action: Check system logs for any additional insight into this issue. Peer clear or contrail-control restart might help as a work around.
+ */
+systemlog sandesh XmppKeepaliveTimeError {
+    1: "Xmpp Keepalive timer error: ";
+    2: string name;
+    3: "  ";
+    4: string message;
+}
+
+/**
+ * @description: XMPP Close send event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppClose {
+    1: "Send Close: ";
+    2: i32 length;
+    3: " bytes from: ";
+    4: string from;
+    5: " To: ";
+    6: string to;
+}
+
+/**
+ * @description: XMPP Connection delete event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppConnectionDelete {
+    1: "Deleted Xmpp ";
+    2: string type;
+    3: " connection from ";
+    4: string from;
+    5: " To : ";
+    6: string to;
+}
+
+/**
+ * @description: XMPP Unknown event
+ * @severity: WARNING
+ * @cause: Unknown connection event was detected over an Xmpp Session
+ * @action: Look at the session logs for the connection that was affected due to this event. Also look the peer logs in the associated peer (agent)
+ */
+systemlog sandesh XmppUnknownEvent {
+    1: string channel_type;
+    2: "Event :";
+    3: i32 event;
+}
+
+/**
+ * @description: XMPP State Machine message discarded event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppUnconsumedEvent {
+    1: string channel_type;
+    2: "Unconsumed Event";
+    3: string event;
+    4: " in state ";
+    5: string state;
+}
+
+/**
+ * @description: XMPP message unsupported event
+ * @severity: NOTICE
+ * @cause: Possibly due to missing support in the software
+ * @action: Contact your technical support representative
+ */
+systemlog sandesh XmppStateMachineUnsupportedMessage {
+   1: "Xmpp message decode error ";
+   2: string channel_type;
+   3: i32 message_type;
+}
+
+/**
+ * @description: XMPP State Machine timer expired event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppStateMachineTimerExpire {
+    1: string channel_type;
+    2: string f2;
+    3: "Expired in state: "
+    4: string state;
+}
+
+/**
+ * @description: XMPP State Machine dequeue event
+ * @severity: DEBUG
+ */
+systemlog sandesh XmppStateMachineDequeueEvent {
+   1: "RECV Processing ";
+   2: string channel_type;
+   3: string event;
+   4: " In State ";
+   5: string state;
+   6: "peer";
+   7: string from;
+   8: "(";
+   9: string to;
+   10: ")"
+}

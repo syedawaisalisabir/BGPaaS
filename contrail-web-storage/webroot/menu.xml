@@ -1,0 +1,198 @@
+<!--
+ Copyright (c) 2014 Juniper Networks, Inc. All rights reserved.
+-->
+<!--
+Access tag details 
+If the access tag is not there then every one can access the menu/menu items
+If access tag is there then only the roles and orchestration models mentioned in the tags are allowed
+If any role/orchModel tag is with negation(!) value then every one has access to menu/menu item except the one mentioned with negation
+and need to add the iconClass tag wherever we need to show some icons
+ -->
+<menu>
+    <items>
+        <item>
+           <label>Monitor</label>
+            <name>monitor</name>
+            <resources>
+                <resource>
+                    <rootDir>/common/ui</rootDir>
+                    <template>storage.tmpl</template>
+                </resource>
+            </resources>
+            <iconClass>fa fa-bar-chart-o</iconClass>
+            <items>
+                <item>
+                    <label>Infrastructure</label>
+                    <resources>
+                        <resource>
+                            <rootDir>/monitor/infrastructure/ui</rootDir>
+                        </resource>
+                    </resources>
+                     <iconClass>fa fa-desktop</iconClass>
+                     <access>
+                        <roles>
+                            <role>cloudAdmin</role>
+                        </roles>
+                        <orchModels>
+                            <model>openstack</model>
+                            <model>cloudstack</model>
+                            <model>vcenter</model>
+                        </orchModels>
+                        <accessFn>hideInFederatedvCenter</accessFn>
+                    </access>
+                    <items>
+                        <item>
+                            <hash>mon_infra_dashboard</hash>
+                            <label>Dashboard</label>
+                            <searchStrings>Infrastructure Dashboard</searchStrings>
+                             <resources>
+                                 <resource>
+                                    <rootDir>/common/ui</rootDir>
+                                    <css>contrail.storage.css</css>
+                                </resource>
+                                <resource>
+                                    <rootDir>.</rootDir>
+                                    <js>monInfraDashboard.main.js</js>
+                                    <class>monInfraDashboardLoader</class>
+                                </resource>
+                                <resource>
+                                    <rootDir>/monitor/infrastructure/ui</rootDir>
+                                    <js>infra.storage.main.js</js>
+                                    <class>infraStoragePageLoader </class>
+                                    <function>renderDashboard</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <tab>storageNode</tab>
+                                <type>dashboard</type>
+                            </queryParams>
+                        </item>
+                        <item>
+                            <hash>monitor_infra_storage</hash>
+                            <label>Storage Nodes</label>
+                            <resources>
+                                <resource>
+                                    <rootDir>/monitor/infrastructure/ui</rootDir>
+                                    <js>infra.storage.main.js</js>
+                                    <class>infraStoragePageLoader</class>
+                                    <function>renderStorageNodes</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <view>list</view>
+                                <type>storagenode</type>
+                                <source>uve</source>
+                            </queryParams>
+                            <searchStrings>Monitor Storage Nodes</searchStrings>
+                        </item>
+                    </items>
+                </item>
+                <item>
+                    <label>Storage</label>
+                    <iconClass>menu-icon fa fa-tasks</iconClass>
+                    <resources>
+                        <resource>
+                            <rootDir>/common/ui</rootDir>
+                            <css>contrail.storage.css</css>
+                            <template>storage.tmpl</template>
+                            <class>storagePageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/monitor/storage/ui</rootDir>
+                            <js>storage.main.js</js>
+                            <class>storagePageLoader</class>
+                        </resource>
+                    </resources>
+                    <items>
+                        <item>
+                            <hash>monitor_storage_dashboard</hash>
+                            <label>Dashboard</label>
+                            <resources>
+                                <resource>
+                                    <rootDir>/monitor/storage/ui</rootDir>
+                                    <class>storagePageLoader</class>
+                                    <function>renderStorageDashboard</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <view>dashboard</view>
+                                <type>storage</type>
+                                <source>uve</source>
+                            </queryParams>
+                            <searchStrings>Storage Dashboard</searchStrings>
+                        </item>
+                        <item>
+                            <hash>monitor_storage_disks</hash>
+                            <label>Disks</label>
+                            <resources>
+                                <resource>
+                                    <rootDir>/monitor/storage/ui</rootDir>
+                                    <class>storagePageLoader</class>
+                                    <function>renderDisks</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <view>list</view>
+                                <type>disk</type>
+                                <source>uve</source>
+                            </queryParams>
+                            <searchStrings>Monitor Disks</searchStrings>
+                        </item>
+                        <item>
+                            <hash>monitor_storage_monitors</hash>
+                            <label>Monitors</label>
+                            <resources>
+                                <resource>
+                                    <rootDir>/monitor/storage/ui</rootDir>
+                                    <class>storagePageLoader</class>
+                                    <function>renderMonitors</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <view>list</view>
+                                <type>monitor</type>
+                                <source>uve</source>
+                            </queryParams>
+                            <searchStrings>Monitor Storage Monitors</searchStrings>
+                        </item>
+                        <item>
+                            <label>Pools</label>
+                            <hash>monitor_storage_pools</hash>
+                            <resources>
+                                <resource>
+                                    <rootDir>/monitor/storage/ui</rootDir>
+                                    <class>storagePageLoader</class>
+                                    <function>renderPools</function>
+                                </resource>
+                            </resources>
+                            <queryParams>
+                                <view>list</view>
+                                <type>pool</type>
+                                <source>uve</source>
+                            </queryParams>
+                            <searchStrings>Monitor Pools</searchStrings>
+                        </item>
+                    </items>
+                </item>
+            </items>
+        </item>
+        <item>
+            <name>configure</name>
+            <label>Configure</label>
+            <iconClass>fa fa-wrench</iconClass>
+            <items></items>
+        </item>
+        <item>
+            <label>Setting</label>
+            <name>setting</name>
+            <iconClass>fa fa-cog</iconClass>
+            <items></items>
+        </item>
+        <item>
+            <label>Query</label>
+            <name>query</name>
+            <iconClass>fa fa-search</iconClass>
+            <items></items>
+        </item>
+    </items>
+</menu>

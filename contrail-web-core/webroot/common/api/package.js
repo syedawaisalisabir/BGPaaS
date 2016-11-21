@@ -1,0 +1,13 @@
+var pkgList = {};
+exports.pkgList = pkgList;
+pkgList['pkgName'] = undefined;
+pkgList['parseURL.xml'] = [];
+pkgList['jobProcess.xml'] = [];
+pkgList['featureList.xml'] = [];
+pkgList['parseURL.xml'].push('/src/serverroot/common/url.routes.js');
+pkgList['jobProcess.xml'].push('/src/serverroot/jobs/core/jobsCb.api.js');
+pkgList['parseURL.xml'].push('/src/serverroot/utils/url.routes.js');
+pkgList['featureList.xml'].push('/src/serverroot/web/core/feature.list.js');
+pkgList['parseURL.xml'].push('/src/serverroot/web/routes/url.routes.js');
+pkgList['parseURL.xml'].push('/webroot/reports/qe/api/url.routes.js');
+pkgList['parseURL.xml'].push('/webroot/reports/udd/api/url.routes.js');

@@ -1,0 +1,172 @@
+<!-- Copyright (c) 2014 Juniper Networks, Inc. All rights reserved. -->
+
+<menu>
+    <items>
+        <item>
+            <label>Monitor</label>
+            <name>monitor</name>
+            <iconClass>fa fa-bar-chart-o</iconClass>
+            <items></items>
+        </item>
+        <item>
+            <name>configure</name>
+            <label>Configure</label>
+            <iconClass>fa fa-wrench</iconClass>
+            <items>
+                <item>
+                    <label>Physical Devices</label>
+                    <hash>config_pd</hash>
+                    <resources>
+                        <resource>
+                            <rootDir>/config/physicaldevices/baremetal/ui</rootDir>
+                            <js>baremetal.main.js</js>
+                            <template>baremetal.tmpl</template>
+                            <class>baremetalPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                        </resource>
+                    </resources>
+                    <access>
+                        <roles>
+                            <role>member</role>
+                        </roles>
+                        <orchModels>
+                            <model>openstack</model>
+                        </orchModels>
+                    </access>
+                    <iconClass>fa fa-globe</iconClass>
+                    <items>
+                        <item>
+                            <label>Baremetal Servers</label>
+                            <hash>config_pd_baremetal</hash>
+                            <loader>
+                                <class>baremetalPageLoader</class>
+                            </loader>
+                        </item>
+                    </items>
+                </item>
+                <item>
+                    <label>Server Manager</label>
+                    <hash>config_sm</hash>
+                    <resources>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <js>sm.main.js</js>
+                            <template>sm.tmpl</template>
+                            <class>smPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                        </resource>
+                    </resources>
+                    <access>
+                        <roles>
+                            <role>member</role>
+                        </roles>
+                        <orchModels>
+                            <model>openstack</model>
+                        </orchModels>
+                    </access>
+                    <iconClass>fa fa-cogs</iconClass>
+                    <items>
+                        <item>
+                            <hash>config_sm_dhcphost</hash>
+                            <label>DHCP Host</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderDhcpHost</function>
+                            </loader>
+                        </item>
+                        <item>
+                            <hash>config_sm_dhcpsubnet</hash>
+                            <label>DHCP Subnet</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderDhcpSubnet</function>
+                            </loader>
+                        </item>
+                    </items>
+                </item>
+            </items>
+        </item>
+        <item>
+            <label>Setting</label>
+            <name>setting</name>
+            <iconClass>fa fa-cog</iconClass>
+            <access>
+                <roles>
+                    <role>cloudAdmin</role>
+                </roles>
+                <orchModels>
+                    <model>openstack</model>
+                </orchModels>
+            </access>
+            <items>
+                <item>
+                    <label>Server Manager</label>
+                    <iconClass>menu-icon fa fa-cogs</iconClass>
+                    <resources>
+                        <resource>
+                            <rootDir>/common/ui</rootDir>
+                            <css>contrail.sm.css</css>
+                            <class>smPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <template>sm.tmpl</template>
+                            <class>smPageLoader</class>
+                        </resource>
+                        <resource>
+                            <rootDir>/setting/sm/ui</rootDir>
+                            <js>sm.main.js</js>
+                            <class>smPageLoader</class>
+                        </resource>
+                    </resources>
+                    <items>
+                        <item>
+                            <hash>setting_sm_clusters</hash>
+                            <label>Clusters</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderClusters</function>
+                            </loader>
+                        </item>
+                        <item>
+                            <hash>setting_sm_servers</hash>
+                            <label>Servers</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderServers</function>
+                            </loader>
+                        </item>
+                        <item>
+                            <hash>setting_sm_images</hash>
+                            <label>OS Images</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderImages</function>
+                            </loader>
+                        </item>
+                        <item>
+                            <hash>setting_sm_packages</hash>
+                            <label>Packages</label>
+                            <loader>
+                                <class>smPageLoader</class>
+                                <function>renderPackages</function>
+                            </loader>
+                        </item>
+                    </items>
+                </item>
+            </items>
+        </item>
+        <item>
+            <label>Query</label>
+            <name>query</name>
+            <iconClass>fa fa-search</iconClass>
+            <items></items>
+        </item>
+    </items>
+</menu>
