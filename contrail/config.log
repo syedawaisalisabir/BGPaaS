@@ -1,3 +1,0 @@
-file /opt/stack/contrail/SConstruct,line 13:
-	Configure(confdir = .sconf_temp)
-
