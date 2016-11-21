@@ -17,7 +17,8 @@ define([
             "autonomous_system": null,
             "bgpaas_session_attributes": {
                 "admin_down": false,
-                "as_override": false,
+                "bgp_origin" : 3,
+		"as_override": false,
                 "hold_time": null,
                 "loop_count": null,
                 "address_families": {
