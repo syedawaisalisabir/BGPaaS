@@ -63,6 +63,16 @@ BgpAttrPtr BgpXmppRTargetManager::GetRouteTargetRouteAttr() const {
     BgpAttrSpec attrs;
     BgpAttrNextHop nexthop(bgp_xmpp_channel_->bgp_server()->bgp_identifier());
     attrs.push_back(&nexthop);
+
+    //0=IGP 1=EGP 2=INCOMPLETE 3=NONE(IN case of 3 contrail default behaviour excutes)
+    /*BgpAttrOrigin *origin;
+    if(bgp_xmpp_channel_->rib_export_policy().bgp_origin != 3){
+      origin = new BgpAttrOrigin(bgp_xmpp_channel_->rib_export_policy().bgp_origin);
+    }
+    else{
+      origin = new BgpAttrOrigin(BgpAttrOrigin::IGP);
+    }*/
+
     BgpAttrOrigin origin(BgpAttrOrigin::IGP);
     attrs.push_back(&origin);
     return bgp_xmpp_channel_->bgp_server()->attr_db()->Locate(attrs);
