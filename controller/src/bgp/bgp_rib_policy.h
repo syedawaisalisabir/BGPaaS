@@ -69,7 +69,7 @@ struct RibExportPolicy {
     Encoding encoding;
     as_t as_number;
     bool as_override;
-    int bgp_origin,
+    int bgp_origin;
     IpAddress nexthop;
     int affinity;
     bool llgr;
